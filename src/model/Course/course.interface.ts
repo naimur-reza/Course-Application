@@ -6,7 +6,7 @@ interface ITags {
 }
 
 interface IDetails {
-  level: string;
+  level: "Beginner" | "Intermediate" | "Advanced";
   description: string;
 }
 
