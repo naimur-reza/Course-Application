@@ -20,6 +20,6 @@ export interface ICourse {
   endDate: Date;
   language: string;
   provider: string;
-  durationInWeeks: number;
+  durationInWeeks?: number;
   details: IDetails;
 }
