@@ -3,8 +3,8 @@ import { CategoryControllers } from "./category.controller";
 
 const router = Router();
 
-router.post("/categories", CategoryControllers.createCategoryIntoDB);
+router.post("/", CategoryControllers.createCategoryIntoDB);
 
-router.get("/categories", CategoryControllers.getAllCategoriesFromDB);
+router.get("/", CategoryControllers.getAllCategoriesFromDB);
 
 export const CategoryRouters = router;
