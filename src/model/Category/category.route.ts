@@ -5,4 +5,6 @@ const router = Router();
 
 router.post("/categories", CategoryControllers.createCategoryIntoDB);
 
+router.get("/categories", CategoryControllers.getAllCategoriesFromDB);
+
 export const CategoryRouters = router;

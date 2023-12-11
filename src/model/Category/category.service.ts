@@ -6,6 +6,12 @@ const createCategoryIntoDB = async (payload: ICategory) => {
   return result;
 };
 
+const getAllCategoriesFromDB = async () => {
+  const result = Category.find({});
+  return result;
+};
+
 export const CategoryServices = {
   createCategoryIntoDB,
+  getAllCategoriesFromDB,
 };
