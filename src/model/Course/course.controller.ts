@@ -1,17 +1,18 @@
-import { RequestHandler } from "express";
+import { Request, RequestHandler, Response } from "express";
+import catchAsync from "../../utils/catchAsync";
 import { CourseServices } from "./course.service";
+import { sendSuccessResponse } from "../../utils/sendSuccessResponse";
 
-const createCourseIntoDB: RequestHandler = async (req, res, next) => {
-  try {
+const createCourseIntoDB: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
     const course = await CourseServices.createCourseIntoDB(req.body);
-    res.status(201).json({
-      success: true,
+    sendSuccessResponse(res, {
+      statusCode: 201,
+      message: "Course created successfully",
       data: course,
     });
-  } catch (error: any) {
-    throw new Error(error);
-  }
-};
+  },
+);
 
 export const CourseController = {
   createCourseIntoDB,
