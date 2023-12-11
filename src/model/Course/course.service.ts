@@ -20,10 +20,27 @@ const updateCourseIntoDB = async (
   id: string,
   payload: Partial<ICourse>,
 ): Promise<ICourse | null> => {
-  const result = await Course.findByIdAndUpdate(id, payload, {
+  const { tags, details, ...remainingData } = payload;
+
+  const modifiedData: Record<string, unknown> = {
+    ...remainingData,
+  };
+
+  if (tags && Object.keys(tags).length > 0) {
+    for (const [key, value] of Object.entries(tags)) {
+      modifiedData[`tags.${key}`] = value;
+    }
+  }
+  if (details && Object.keys(details).length > 0) {
+    for (const [key, value] of Object.entries(details)) {
+      modifiedData[`details.${key}`] = value;
+    }
+  }
+  const result = await Course.findByIdAndUpdate(id, modifiedData, {
     new: true,
     runValidators: true,
   });
+
   return result;
 };
 
