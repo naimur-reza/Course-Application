@@ -28,7 +28,6 @@ const getAllCourseFromDB: RequestHandler = catchAsync(
 const updateCourseFromDB: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { courseId } = req.params;
-    console.log(req.body);
     const course = await CourseServices.updateCourseIntoDB(courseId, req.body);
     sendSuccessResponse(res, {
       statusCode: 200,
@@ -38,8 +37,19 @@ const updateCourseFromDB: RequestHandler = catchAsync(
   },
 );
 
+const getCourseWithReviews = catchAsync(async (req: Request, res: Response) => {
+  const { courseId } = req.params;
+  const course = await CourseServices.getCourseWithReviews(courseId);
+  sendSuccessResponse(res, {
+    statusCode: 200,
+    message: "Course and Reviews retrieved successfully",
+    data: course,
+  });
+});
+
 export const CourseController = {
   createCourseIntoDB,
   getAllCourseFromDB,
   updateCourseFromDB,
+  getCourseWithReviews,
 };

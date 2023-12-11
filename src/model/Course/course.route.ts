@@ -9,4 +9,6 @@ router.get("/courses", CourseController.getAllCourseFromDB);
 
 router.patch("/courses/:courseId", CourseController.updateCourseFromDB);
 
+router.get("/courses/:courseId/reviews", CourseController.getCourseWithReviews);
+
 export const CourseRouter = router;

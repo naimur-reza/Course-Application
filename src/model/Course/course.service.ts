@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { ICourse } from "./course.interface";
 import { Course } from "./course.model";
 
@@ -44,6 +45,25 @@ const updateCourseIntoDB = async (
   return result;
 };
 
+const getCourseWithReviews = async (id: string) => {
+  const result = await Course.aggregate([
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(id),
+      },
+    },
+    {
+      $lookup: {
+        from: "reviews",
+        localField: "_id",
+        foreignField: "courseId",
+        as: "reviews",
+      },
+    },
+  ]);
+  return result;
+};
+
 const deleteCourseFromDB = async (id: string) => {
   const result = await Course.findByIdAndDelete(id);
   return result;
@@ -55,4 +75,5 @@ export const CourseServices = {
   getSingleCourseFromDB,
   updateCourseIntoDB,
   deleteCourseFromDB,
+  getCourseWithReviews,
 };
