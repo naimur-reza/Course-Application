@@ -1,3 +1,4 @@
+import { CategoryRouters } from "../model/Category/category.route";
 import { CourseRouter } from "../model/Course/course.route";
 
 import { Router } from "express";
@@ -8,6 +9,10 @@ const routes = [
   {
     path: "/",
     route: CourseRouter,
+  },
+  {
+    path: "/",
+    route: CategoryRouters,
   },
 ];
 
