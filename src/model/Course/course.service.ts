@@ -1,23 +1,29 @@
 import { ICourse } from "./course.interface";
 import { Course } from "./course.model";
 
-const createCourseIntoDB = async (payload: ICourse) => {
+const createCourseIntoDB = async (payload: ICourse): Promise<ICourse> => {
   const result = await Course.create(payload);
   return result;
 };
 
-const getAllCourseFromDB = async () => {
+const getAllCourseFromDB = async (): Promise<ICourse[]> => {
   const result = await Course.find({});
   return result;
 };
 
-const getSingleCourseFromDB = async (id: string) => {
+const getSingleCourseFromDB = async (id: string): Promise<ICourse | null> => {
   const result = await Course.findById(id);
   return result;
 };
 
-const updateCourseIntoDB = async (id: string, payload: ICourse) => {
-  const result = await Course.findByIdAndUpdate(id, payload);
+const updateCourseIntoDB = async (
+  id: string,
+  payload: Partial<ICourse>,
+): Promise<ICourse | null> => {
+  const result = await Course.findByIdAndUpdate(id, payload, {
+    new: true,
+    runValidators: true,
+  });
   return result;
 };
 

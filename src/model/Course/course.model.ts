@@ -19,7 +19,7 @@ const courseSchema = new Schema<ICourse>(
     instructor: { type: String, unique: true },
     category: { type: Schema.Types.ObjectId },
     price: { type: Number },
-    tags: tagsSchema,
+    tags: [tagsSchema],
     startDate: { type: Date },
     endDate: { type: Date },
     language: { type: String },
@@ -40,5 +40,14 @@ courseSchema.virtual("durationInWeeks").get(function () {
   const totalWeeks = Math.ceil((endDate - startDate) / millisecondsInWeek);
   return totalWeeks;
 });
+
+// todo
+// courseSchema.pre("findOneAndUpdate", async function (next) {
+//   const docToUpdate = await this.model.findOne(this.getQuery());
+//   if (!docToUpdate) {
+//     return next(new Error("Course not found"));
+//   }
+//   return next();
+// });
 
 export const Course = model<ICourse>("Course", courseSchema);
