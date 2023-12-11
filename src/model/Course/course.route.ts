@@ -3,6 +3,8 @@ import { CourseController } from "./course.controller";
 
 const router = Router();
 
-router.post("/", CourseController.createCourseIntoDB);
+router.post("/course", CourseController.createCourseIntoDB);
+
+router.get("/courses", CourseController.getAllCourseFromDB);
 
 export const CourseRouter = router;

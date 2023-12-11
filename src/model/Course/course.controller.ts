@@ -16,7 +16,7 @@ const createCourseIntoDB: RequestHandler = catchAsync(
 
 const getAllCourseFromDB: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const course = await CourseServices.getAllCourseFromDB(req.query);
+    const course = await CourseServices.getAllCourseFromDB();
     sendSuccessResponse(res, {
       statusCode: 201,
       message: "Course created successfully",
