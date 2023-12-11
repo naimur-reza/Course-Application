@@ -2,7 +2,9 @@ import { ICourse } from "./course.interface";
 import { Course } from "./course.model";
 
 const createCourseIntoDB = async (payload: ICourse) => {
+  const validateData = await cour;
   const result = await Course.create(payload);
+
   return result;
 };
 
