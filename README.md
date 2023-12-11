@@ -3,7 +3,7 @@
 Clone the project
 
 ```bash
-  git clone https://github.com/naimur-reza/Mongoose-Assignment
+  git clone repository_link
 ```
 
 Go to the project directory
