@@ -1,11 +1,11 @@
 import { Types } from "mongoose";
 
-interface ITags {
+export interface ITags {
   name: string;
   isDeleted: boolean;
 }
 
-interface IDetails {
+export interface IDetails {
   level: "Beginner" | "Intermediate" | "Advanced";
   description: string;
 }
