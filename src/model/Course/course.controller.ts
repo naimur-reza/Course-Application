@@ -14,6 +14,18 @@ const createCourseIntoDB: RequestHandler = catchAsync(
   },
 );
 
+const getAllCourseFromDB: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const course = await CourseServices.getAllCourseFromDB(req.query);
+    sendSuccessResponse(res, {
+      statusCode: 201,
+      message: "Course created successfully",
+      data: course,
+    });
+  },
+);
+
 export const CourseController = {
   createCourseIntoDB,
+  getAllCourseFromDB,
 };

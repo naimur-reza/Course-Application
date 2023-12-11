@@ -1,11 +1,9 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import express, { Application, NextFunction, Request, Response } from "express";
+import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import { CourseRouter } from "../model/Course/course.route";
-import { validateRequest } from "../middleware/validateRequest";
-import { createCourseValidationSchema } from "../model/Course/course.validation";
+
+import globalErrorHandler from "../middleware/globalErrorHandler";
+import notFound from "../middleware/notFoundHandler";
 
 export const app: Application = express();
 
@@ -24,20 +22,6 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-// global error handler
+app.use(globalErrorHandler); // global error handler
 
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  res.status(500).json({
-    success: false,
-    error: err,
-  });
-});
-
-// not found handler
-app.use((req: Request, res: Response, next: NextFunction) => {
-  res.status(404).json({
-    success: false,
-    statusCode: 404,
-    message: `Api not found! ${req.path}`,
-  });
-});
+app.use(notFound); // not found handler
