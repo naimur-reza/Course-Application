@@ -1,8 +1,7 @@
 interface IErrorResponse {
-  statusCode: number;
   success: boolean;
   message: string;
-  errorMessage: Storage;
+  errorMessage: string;
 }
 
 export default IErrorResponse;
