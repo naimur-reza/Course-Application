@@ -1,26 +1,26 @@
 import { z } from "zod";
-
-const tagSchema = z.object({
+const tagsSchema = z.object({
   name: z.string(),
   isDeleted: z.boolean(),
 });
 
-export const createCourseValidationSchema = z.object({
-  title: z.string().min(1),
-  instructor: z.string().min(1),
-  category: z.string(),
-  price: z.number(),
-  tags: z.array(tagSchema),
-  startDate: z.date(),
-  endDate: z.date(),
-  durationInWeeks: z.number(),
-  language: z.string(),
-  provider: z.string(),
-  details: z.object({
-    level: z.string(),
-    description: z.string(),
-  }),
+const detailsSchema = z.object({
+  level: z.enum(["Beginner", "Intermediate", "Advanced"]),
+  description: z.string(),
 });
 
-export const updateTourValidationSchema =
-  createCourseValidationSchema.partial();
+export const createCourseSchemaValidation = z.object({
+  title: z.string(),
+  instructor: z.string(),
+  categoryId: z.string(),
+  price: z.number(),
+  tags: z.array(tagsSchema),
+  startDate: z.string(),
+  endDate: z.string(),
+  language: z.string(),
+  provider: z.string(),
+  details: detailsSchema,
+});
+
+export const updateCourseSchemaValidation =
+  createCourseSchemaValidation.partial();

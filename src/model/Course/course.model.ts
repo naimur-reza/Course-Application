@@ -17,7 +17,7 @@ const courseSchema = new Schema<ICourse>(
   {
     title: { type: String, unique: true },
     instructor: { type: String, unique: true },
-    category: { type: Schema.Types.ObjectId, ref: "Category" },
+    categoryId: { type: Schema.Types.ObjectId, ref: "Category" },
     price: { type: Number },
     tags: [tagsSchema],
     startDate: { type: Date },

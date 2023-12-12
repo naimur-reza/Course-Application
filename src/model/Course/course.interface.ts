@@ -13,7 +13,7 @@ export interface IDetails {
 export interface ICourse {
   title: string;
   instructor: string;
-  category: Types.ObjectId;
+  categoryId: Types.ObjectId;
   price: number;
   tags: ITags[];
   startDate: Date;
