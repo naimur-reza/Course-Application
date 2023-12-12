@@ -64,6 +64,55 @@ const getCourseWithReviews = async (id: string) => {
   return result;
 };
 
+const getBestCourseFromDB = async () => {
+  const result = await Course.aggregate([
+    // first stage
+
+    {
+      $lookup: {
+        from: "reviews",
+        localField: "_id",
+        foreignField: "courseId",
+        as: "reviews",
+      },
+    },
+
+    // second stage
+
+    {
+      $addFields: {
+        averageRating: { $avg: "$reviews.rating" },
+        reviewCount: { $size: "$reviews" },
+      },
+    },
+
+    // third stage
+
+    {
+      $sort: {
+        averageRating: -1,
+        reviewCount: -1,
+      },
+    },
+
+    // fourth stage
+
+    {
+      $limit: 1,
+    },
+
+    // fifth stage
+
+    {
+      $project: {
+        reviews: false,
+      },
+    },
+  ]);
+
+  return result;
+};
+
 const deleteCourseFromDB = async (id: string) => {
   const result = await Course.findByIdAndDelete(id);
   return result;
@@ -76,4 +125,5 @@ export const CourseServices = {
   updateCourseIntoDB,
   deleteCourseFromDB,
   getCourseWithReviews,
+  getBestCourseFromDB,
 };
