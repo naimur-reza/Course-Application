@@ -25,6 +25,7 @@ const courseSchema = new Schema<ICourse>(
     language: { type: String },
     provider: { type: String },
     details: detailsSchema,
+    durationInWeeks: { type: Number },
   },
   {
     toJSON: { virtuals: true },
@@ -32,22 +33,16 @@ const courseSchema = new Schema<ICourse>(
   },
 );
 
-courseSchema.virtual("durationInWeeks").get(function () {
+courseSchema.pre("save", function (next) {
   const startDate = new Date(this.startDate).getTime();
   const endDate = new Date(this.endDate).getTime();
 
   const millisecondsInWeek = 7 * 24 * 60 * 60 * 1000;
   const totalWeeks = Math.ceil((endDate - startDate) / millisecondsInWeek);
-  return totalWeeks;
-});
 
-// todo
-// courseSchema.pre("findOneAndUpdate", async function (next) {
-//   const docToUpdate = await this.model.findOne(this.getQuery());
-//   if (!docToUpdate) {
-//     return next(new Error("Course not found"));
-//   }
-//   return next();
-// });
+  this.set("durationInWeeks", totalWeeks);
+
+  next();
+});
 
 export const Course = model<ICourse>("Course", courseSchema);
