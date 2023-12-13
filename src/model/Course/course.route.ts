@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { CourseController } from "./course.controller";
 import { validateRequest } from "../../middleware/validateRequest";
-import { createCourseSchemaValidation } from "./course.validation";
+import {
+  createCourseSchemaValidation,
+  updateCourseSchemaValidation,
+} from "./course.validation";
 
 const router = Router();
 
@@ -11,7 +14,11 @@ router.post(
   CourseController.createCourseIntoDB,
 );
 
-router.get("/courses", CourseController.getAllCourseFromDB);
+router.get(
+  "/courses",
+  validateRequest(updateCourseSchemaValidation),
+  CourseController.getAllCourseFromDB,
+);
 
 router.patch("/courses/:courseId", CourseController.updateCourseFromDB);
 
