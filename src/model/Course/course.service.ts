@@ -1,14 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
 import { ICourse } from "./course.interface";
 import { Course } from "./course.model";
+import IQueryObj from "../../types/IQueryObj";
+import filterHelper from "../../helpers/filterHelper";
 
 const createCourseIntoDB = async (payload: ICourse): Promise<ICourse> => {
   const result = await Course.create(payload);
   return result;
 };
 
-const getAllCourseFromDB = async (): Promise<ICourse[]> => {
-  const result = await Course.find({});
+const getAllCourseFromDB = async (query: IQueryObj): Promise<ICourse[]> => {
+  const filterData = filterHelper(Course.find(), query);
+
+  const result = await filterData;
   return result;
 };
 
