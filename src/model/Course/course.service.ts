@@ -29,11 +29,23 @@ const updateCourseIntoDB = async (
 
   if (tags && tags.length > 0) {
     const newTags = tags.filter(el => !el.isDeleted);
-    console.log(newTags);
+
     await Course.findByIdAndUpdate(id, {
       $addToSet: {
         tags: {
           $each: newTags,
+        },
+      },
+    });
+
+    const removeTags = tags.filter(el => el.isDeleted).map(el => el.name);
+
+    await Course.findByIdAndUpdate(id, {
+      $pull: {
+        tags: {
+          name: {
+            $in: removeTags,
+          },
         },
       },
     });
