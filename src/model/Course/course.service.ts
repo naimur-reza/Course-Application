@@ -4,6 +4,8 @@ import { ICourse } from "./course.interface";
 import { Course } from "./course.model";
 import IQueryObj from "../../types/IQueryObj";
 import filterHelper from "../../helpers/filterHelper";
+import priceFilterHelper from "../../helpers/priceFilterHelper";
+import { paginate } from "../../helpers/paginateHelper";
 
 const createCourseIntoDB = async (payload: ICourse): Promise<ICourse> => {
   const result = await Course.create(payload);
@@ -11,9 +13,10 @@ const createCourseIntoDB = async (payload: ICourse): Promise<ICourse> => {
 };
 
 const getAllCourseFromDB = async (query: IQueryObj): Promise<ICourse[]> => {
-  const filterData = filterHelper(Course.find(), query);
-
-  const result = await filterData;
+  const filteredData = filterHelper(Course.find(), query);
+  const paginatedData = paginate(filteredData, query);
+  const filteredPrice = priceFilterHelper(paginatedData, query);
+  const result = await filteredPrice.lean();
   return result;
 };
 

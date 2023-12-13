@@ -4,6 +4,7 @@ interface IQueryObj {
   sortBy?: string;
   sortOrder?: string;
   minPrice?: string;
+  maxPrice?: string;
   tags?: string;
   startDate?: Date;
   endDate?: Date;

@@ -19,7 +19,7 @@ const getAllCourseFromDB: RequestHandler = catchAsync(
     const course = await CourseServices.getAllCourseFromDB(req.query);
     sendSuccessResponse(res, {
       statusCode: 201,
-      message: "Course created successfully",
+      message: "Courses retrieved successfully",
       data: course,
     });
   },
