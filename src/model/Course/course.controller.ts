@@ -2,6 +2,7 @@ import { Request, RequestHandler, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
 import { CourseServices } from "./course.service";
 import { sendSuccessResponse } from "../../utils/sendSuccessResponse";
+import IQueryObj from "../../types/IQueryObj";
 
 const createCourseIntoDB: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
@@ -16,10 +17,26 @@ const createCourseIntoDB: RequestHandler = catchAsync(
 
 const getAllCourseFromDB: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const course = await CourseServices.getAllCourseFromDB(req.query);
-    sendSuccessResponse(res, {
-      statusCode: 201,
+    const query: IQueryObj = req.query;
+    const course = await CourseServices.getAllCourseFromDB(query);
+
+    const meta: Record<string, string | number> = {
+      page: query.page || 1,
+      limit: query.limit || 10,
+      total: course.length,
+    };
+
+    // sendSuccessResponse(res, {
+    //   statusCode: 201,
+    //   message: "Courses retrieved successfully",
+    //   meta: meta,
+    //   data: course,
+    // });
+
+    res.status(200).send({
+      statusCode: 200,
       message: "Courses retrieved successfully",
+      meta: meta,
       data: course,
     });
   },
