@@ -1,37 +1,41 @@
 import { Schema, model } from "mongoose";
 import { ICourse, IDetails, ITags } from "./course.interface";
 
-const tagsSchema = new Schema<ITags>({
-  name: { type: String },
-  isDeleted: { type: Boolean },
-});
-const detailsSchema = new Schema<IDetails>({
-  level: {
-    type: String,
-    enum: ["Beginner", "Intermediate", "Advanced"],
-  },
-  description: { type: String },
-});
-
-const courseSchema = new Schema<ICourse>(
+const tagsSchema = new Schema<ITags>(
   {
-    title: { type: String, unique: true },
-    instructor: { type: String, unique: true },
-    categoryId: { type: Schema.Types.ObjectId, ref: "Category" },
-    price: { type: Number },
-    tags: [tagsSchema],
-    startDate: { type: Date },
-    endDate: { type: Date },
-    language: { type: String },
-    provider: { type: String },
-    details: detailsSchema,
-    durationInWeeks: { type: Number },
+    name: { type: String },
+    isDeleted: { type: Boolean },
   },
   {
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
+    _id: false,
   },
 );
+const detailsSchema = new Schema<IDetails>(
+  {
+    level: {
+      type: String,
+      enum: ["Beginner", "Intermediate", "Advanced"],
+    },
+    description: { type: String },
+  },
+  {
+    _id: false,
+  },
+);
+
+const courseSchema = new Schema<ICourse>({
+  title: { type: String, unique: true },
+  instructor: { type: String, unique: true },
+  categoryId: { type: Schema.Types.ObjectId, ref: "Category" },
+  price: { type: Number },
+  tags: [tagsSchema],
+  startDate: { type: Date },
+  endDate: { type: Date },
+  language: { type: String },
+  provider: { type: String },
+  details: detailsSchema,
+  durationInWeeks: { type: Number },
+});
 
 courseSchema.pre("save", function (next) {
   const startDate = new Date(this.startDate).getTime();

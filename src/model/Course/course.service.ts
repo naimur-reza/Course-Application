@@ -27,10 +27,16 @@ const updateCourseIntoDB = async (
     ...remainingData,
   };
 
-  if (tags && Object.keys(tags).length > 0) {
-    for (const [key, value] of Object.entries(tags)) {
-      modifiedData[`tags.${key}`] = value;
-    }
+  if (tags && tags.length > 0) {
+    const newTags = tags.filter(el => !el.isDeleted);
+    console.log(newTags);
+    await Course.findByIdAndUpdate(id, {
+      $addToSet: {
+        tags: {
+          $each: newTags,
+        },
+      },
+    });
   }
   if (details && Object.keys(details).length > 0) {
     for (const [key, value] of Object.entries(details)) {
